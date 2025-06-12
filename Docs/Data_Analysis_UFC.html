@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="-Chance -Solange -Hope">
+
+<title>UFC Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="Data_Analysis_UFC_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Data_Analysis_UFC_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Data_Analysis_UFC_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Data_Analysis_UFC_files/libs/quarto-html/popper.min.js"></script>
+<script src="Data_Analysis_UFC_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Data_Analysis_UFC_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Data_Analysis_UFC_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Data_Analysis_UFC_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Data_Analysis_UFC_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Data_Analysis_UFC_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Data_Analysis_UFC_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">UFC Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>-Chance -Solange -Hope </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="load-dataset-and-visualisation" class="level3">
+<h3 class="anchored" data-anchor-id="load-dataset-and-visualisation">Load Dataset and Visualisation</h3>
+<div id="3fee0962" class="cell" data-execution_count="52">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="8e7733bc" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="vs">r"C:</span><span class="er">\</span><span class="vs">Users</span><span class="er">\</span><span class="vs">USER</span><span class="dv">\D</span><span class="vs">ownloads</span><span class="er">\</span><span class="vs">ufc_clean_no_duplicates</span><span class="dv">.</span><span class="vs">csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>HTML(df.head(<span class="dv">10</span>).to_html())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Fighter</th>
+<th data-quarto-table-cell-role="th">W/L</th>
+<th data-quarto-table-cell-role="th">Opponent</th>
+<th data-quarto-table-cell-role="th">Knockdowns</th>
+<th data-quarto-table-cell-role="th">Strikes</th>
+<th data-quarto-table-cell-role="th">Takedowns</th>
+<th data-quarto-table-cell-role="th">SubmissionAttempts</th>
+<th data-quarto-table-cell-role="th">Event</th>
+<th data-quarto-table-cell-role="th">Method</th>
+<th data-quarto-table-cell-role="th">Round</th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">First Name</th>
+<th data-quarto-table-cell-role="th">Last Name</th>
+<th data-quarto-table-cell-role="th">Link</th>
+<th data-quarto-table-cell-role="th">Nick Name</th>
+<th data-quarto-table-cell-role="th">Wins</th>
+<th data-quarto-table-cell-role="th">Losses</th>
+<th data-quarto-table-cell-role="th">Draws</th>
+<th data-quarto-table-cell-role="th">Height</th>
+<th data-quarto-table-cell-role="th">Weight</th>
+<th data-quarto-table-cell-role="th">Reach</th>
+<th data-quarto-table-cell-role="th">STANCE</th>
+<th data-quarto-table-cell-role="th">DOB</th>
+<th data-quarto-table-cell-role="th">SLpM</th>
+<th data-quarto-table-cell-role="th">Str. Acc.</th>
+<th data-quarto-table-cell-role="th">SApM</th>
+<th data-quarto-table-cell-role="th">Str. Def</th>
+<th data-quarto-table-cell-role="th">TD Avg.</th>
+<th data-quarto-table-cell-role="th">TD Acc.</th>
+<th data-quarto-table-cell-role="th">TD Def.</th>
+<th data-quarto-table-cell-role="th">Sub. Avg.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>tom aaron</td>
+<td>loss</td>
+<td>Matt Ricehouse</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>Strikeforce - Henderson vs. Babalu Dec. 04, 2010</td>
+<td>U-DEC</td>
+<td>3.0</td>
+<td>7/12/2005</td>
+<td>Tom</td>
+<td>Aaron</td>
+<td>http://ufcstats.com/fighter-details/93fe7332d16c6ad9</td>
+<td>NaN</td>
+<td>5.0</td>
+<td>3.0</td>
+<td>0</td>
+<td>--</td>
+<td>155 lbs.</td>
+<td>--</td>
+<td>NaN</td>
+<td>7/13/1978</td>
+<td>0.00</td>
+<td>0%</td>
+<td>0.00</td>
+<td>0%</td>
+<td>0.00</td>
+<td>0%</td>
+<td>0%</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>tom aaron</td>
+<td>win</td>
+<td>Eric Steenberg</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>Strikeforce - Heavy Artillery May. 15, 2010</td>
+<td>SUB</td>
+<td>1.0</td>
+<td>7/15/2009</td>
+<td>Tom</td>
+<td>Aaron</td>
+<td>http://ufcstats.com/fighter-details/93fe7332d16c6ad9</td>
+<td>NaN</td>
+<td>5.0</td>
+<td>3.0</td>
+<td>0</td>
+<td>--</td>
+<td>155 lbs.</td>
+<td>--</td>
+<td>NaN</td>
+<td>7/13/1978</td>
+<td>0.00</td>
+<td>0%</td>
+<td>0.00</td>
+<td>0%</td>
+<td>0.00</td>
+<td>0%</td>
+<td>0%</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>danny abbadi</td>
+<td>loss</td>
+<td>Jorge Gurgel</td>
+<td>0</td>
+<td>56</td>
+<td>0</td>
+<td>0</td>
+<td>UFC 63: Hughes vs Penn Sep. 23, 2006</td>
+<td>S-DEC</td>
+<td>3.0</td>
+<td>1/1/1999</td>
+<td>Danny</td>
+<td>Abbadi</td>
+<td>http://ufcstats.com/fighter-details/15df64c02b6b0fde</td>
+<td>The Assassin</td>
+<td>4.0</td>
+<td>6.0</td>
+<td>0</td>
+<td>5' 11"</td>
+<td>155 lbs.</td>
+<td>--</td>
+<td>Orthodox</td>
+<td>7/3/1983</td>
+<td>3.29</td>
+<td>38%</td>
+<td>4.41</td>
+<td>57%</td>
+<td>0.00</td>
+<td>0%</td>
+<td>77%</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>danny abbadi</td>
+<td>loss</td>
+<td>Kalib Starnes</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>The Ultimate Fighter: Team Ortiz vs. Team Shamrock Finale Jun. 24, 2006</td>
+<td>SUB</td>
+<td>1.0</td>
+<td>1/1/2012</td>
+<td>Danny</td>
+<td>Abbadi</td>
+<td>http://ufcstats.com/fighter-details/15df64c02b6b0fde</td>
+<td>The Assassin</td>
+<td>4.0</td>
+<td>6.0</td>
+<td>0</td>
+<td>5' 11"</td>
+<td>155 lbs.</td>
+<td>--</td>
+<td>Orthodox</td>
+<td>7/3/1983</td>
+<td>3.29</td>
+<td>38%</td>
+<td>4.41</td>
+<td>57%</td>
+<td>0.00</td>
+<td>0%</td>
+<td>77%</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>nariman abbasov</td>
+<td>loss</td>
+<td>Ismael Bonfim</td>
+<td>0</td>
+<td>45</td>
+<td>0</td>
+<td>0</td>
+<td>DWCS 6.7 Sep. 06, 2022</td>
+<td>U-DEC</td>
+<td>3.0</td>
+<td>1/1/2012</td>
+<td>Nariman</td>
+<td>Abbasov</td>
+<td>http://ufcstats.com/fighter-details/59a9d6dac61c2540</td>
+<td>Bayraktar</td>
+<td>28.0</td>
+<td>4.0</td>
+<td>0</td>
+<td>5' 8"</td>
+<td>155 lbs.</td>
+<td>66"</td>
+<td>Orthodox</td>
+<td>2/1/1994</td>
+<td>3.00</td>
+<td>20%</td>
+<td>5.67</td>
+<td>46%</td>
+<td>0.00</td>
+<td>0%</td>
+<td>66%</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>david abbott</td>
+<td>loss</td>
+<td>Kevin Ferguson</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>EliteXC - Street Certified Feb. 16, 2008</td>
+<td>KO/TKO</td>
+<td>1.0</td>
+<td>1/1/2000</td>
+<td>David</td>
+<td>Abbott</td>
+<td>http://ufcstats.com/fighter-details/b361180739bed4b0</td>
+<td>Tank</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>0</td>
+<td>6' 0"</td>
+<td>265 lbs.</td>
+<td>--</td>
+<td>Switch</td>
+<td>4/26/1965</td>
+<td>1.35</td>
+<td>30%</td>
+<td>3.55</td>
+<td>38%</td>
+<td>1.07</td>
+<td>33%</td>
+<td>66%</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>david abbott</td>
+<td>loss</td>
+<td>Paul Buentello</td>
+<td>0</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>Strikeforce - Tank vs. Buentello Oct. 07, 2006</td>
+<td>KO/TKO</td>
+<td>1.0</td>
+<td>1/1/1995</td>
+<td>David</td>
+<td>Abbott</td>
+<td>http://ufcstats.com/fighter-details/b361180739bed4b0</td>
+<td>Tank</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>0</td>
+<td>6' 0"</td>
+<td>265 lbs.</td>
+<td>--</td>
+<td>Switch</td>
+<td>4/26/1965</td>
+<td>1.35</td>
+<td>30%</td>
+<td>3.55</td>
+<td>38%</td>
+<td>1.07</td>
+<td>33%</td>
+<td>66%</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>david abbott</td>
+<td>loss</td>
+<td>Hidehiko Yoshida</td>
+<td>0</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>PRIDE Final Conflict 2005 Aug. 28, 2005</td>
+<td>SUB</td>
+<td>1.0</td>
+<td>1/1/2020</td>
+<td>David</td>
+<td>Abbott</td>
+<td>http://ufcstats.com/fighter-details/b361180739bed4b0</td>
+<td>Tank</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>0</td>
+<td>6' 0"</td>
+<td>265 lbs.</td>
+<td>--</td>
+<td>Switch</td>
+<td>4/26/1965</td>
+<td>1.35</td>
+<td>30%</td>
+<td>3.55</td>
+<td>38%</td>
+<td>1.07</td>
+<td>33%</td>
+<td>66%</td>
+<td>0.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>david abbott</td>
+<td>loss</td>
+<td>Wesley Correira</td>
+<td>0</td>
+<td>11</td>
+<td>0</td>
+<td>0</td>
+<td>UFC 45: Revolution Nov. 21, 2003</td>
+<td>KO/TKO</td>
+<td>1.0</td>
+<td>1/1/2003</td>
+<td>David</td>
+<td>Abbott</td>
+<td>http://ufcstats.com/fighter-details/b361180739bed4b0</td>
+<td>Tank</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>0</td>
+<td>6' 0"</td>
+<td>265 lbs.</td>
+<td>--</td>
+<td>Switch</td>
+<td>4/26/1965</td>
+<td>1.35</td>
+<td>30%</td>
+<td>3.55</td>
+<td>38%</td>
+<td>1.07</td>
+<td>33%</td>
+<td>66%</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>david abbott</td>
+<td>loss</td>
+<td>Kimo Leopoldo</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>UFC 43: Meltdown Jun. 06, 2003</td>
+<td>SUB</td>
+<td>1.0</td>
+<td>1/1/2003</td>
+<td>David</td>
+<td>Abbott</td>
+<td>http://ufcstats.com/fighter-details/b361180739bed4b0</td>
+<td>Tank</td>
+<td>10.0</td>
+<td>15.0</td>
+<td>0</td>
+<td>6' 0"</td>
+<td>265 lbs.</td>
+<td>--</td>
+<td>Switch</td>
+<td>4/26/1965</td>
+<td>1.35</td>
+<td>30%</td>
+<td>3.55</td>
+<td>38%</td>
+<td>1.07</td>
+<td>33%</td>
+<td>66%</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="b7eaee04" class="cell" data-execution_count="53">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show columns to verify</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Columns in dataset:"</span>, df.columns.tolist())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Columns in dataset: ['Fighter', 'W/L', 'Opponent', 'Knockdowns', 'Strikes', 'Takedowns', 'SubmissionAttempts', 'Event', 'Method', 'Round', 'Date', 'First Name', 'Last Name', 'Link', 'Nick Name', 'Wins', 'Losses', 'Draws', 'Height', 'Weight', 'Reach', 'STANCE', 'DOB', 'SLpM', 'Str. Acc.', 'SApM', 'Str. Def', 'TD Avg.', 'TD Acc.', 'TD Def.', 'Sub. Avg.', 'Strikes_Landed', 'Strikes_Attempted', 'Weight_Clean', 'Weight_Class', 'Fight_Seconds', 'Win_Method_Simple']</code></pre>
+</div>
+</div>
+</section>
+<section id="distribution-of-knockdowns" class="level1">
+<h1>Distribution of Knockdowns</h1>
+<div id="39e4e85e" class="cell" data-execution_count="57">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1.Distribution of Knockdowns: Plot a histogram to see how often knockdowns occur</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure Knockdowns column is numeric</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Knockdowns'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'Knockdowns'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Determine max knockdowns</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>max_knockdowns <span class="op">=</span> <span class="bu">int</span>(df[<span class="st">'Knockdowns'</span>].<span class="bu">max</span>())</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the plot</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.histplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'Knockdowns'</span>, bins<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, max_knockdowns <span class="op">+</span> <span class="dv">2</span>), discrete<span class="op">=</span><span class="va">True</span>, kde<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Set labels and titles</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Knockdowns per UFC Fight (Distribution)'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Knockdowns'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Fights'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">3</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add value labels on bars</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> patch <span class="kw">in</span> ax.patches:</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    height <span class="op">=</span> patch.get_height()</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> height <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        ax.annotate(<span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(height)<span class="sc">:,}</span><span class="ss">'</span>,  <span class="co"># Adds commas for thousands</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>                    xy<span class="op">=</span>(patch.get_x() <span class="op">+</span> patch.get_width() <span class="op">/</span> <span class="dv">2</span>, height),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                    xytext<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">5</span>),  <span class="co"># Increased offset for clarity</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                    textcoords<span class="op">=</span><span class="st">"offset points"</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                    ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, fontsize<span class="op">=</span><span class="dv">10</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>color<span class="op">=</span> <span class="st">'darkblue'</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Data_Analysis_UFC_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="614a3f22" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed extraction function</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> safe_extract_strikes(strikes_str):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pd.isna(strikes_str) <span class="kw">or</span> <span class="bu">str</span>(strikes_str) <span class="op">==</span> <span class="st">'--'</span>:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.Series([<span class="va">None</span>, <span class="va">None</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Try the most common patterns</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    match <span class="op">=</span> re.search(<span class="vs">r'</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="dv">.</span><span class="op">*?</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">'</span>, <span class="bu">str</span>(strikes_str))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> match:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.Series([<span class="bu">int</span>(match.group(<span class="dv">1</span>)), <span class="bu">int</span>(match.group(<span class="dv">2</span>))])</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series([<span class="va">None</span>, <span class="va">None</span>])</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the extraction</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Strikes_Landed'</span>, <span class="st">'Strikes_Attempted'</span>]] <span class="op">=</span> df[<span class="st">'Strikes'</span>].<span class="bu">apply</span>(safe_extract_strikes)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the results</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sample of extracted data:"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'Fighter'</span>, <span class="st">'Strikes'</span>, <span class="st">'Strikes_Landed'</span>, <span class="st">'Strikes_Attempted'</span>]].head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sample of extracted data:</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Fighter</th>
+<th data-quarto-table-cell-role="th">Strikes</th>
+<th data-quarto-table-cell-role="th">Strikes_Landed</th>
+<th data-quarto-table-cell-role="th">Strikes_Attempted</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>tom aaron</td>
+<td>--</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>tom aaron</td>
+<td>--</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>danny abbadi</td>
+<td>56</td>
+<td>5.0</td>
+<td>6.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>danny abbadi</td>
+<td>3</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>nariman abbasov</td>
+<td>45</td>
+<td>4.0</td>
+<td>5.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>david abbott</td>
+<td>1</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>david abbott</td>
+<td>4</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>david abbott</td>
+<td>2</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>david abbott</td>
+<td>11</td>
+<td>1.0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>david abbott</td>
+<td>0</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="29004f40" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check extraction success</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>successful <span class="op">=</span> df[<span class="st">'Strikes_Landed'</span>].notna().<span class="bu">sum</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Successful extractions: </span><span class="sc">{</span>successful<span class="sc">}</span><span class="ss"> out of </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> successful <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Strikes_Landed range: </span><span class="sc">{</span>df[<span class="st">'Strikes_Landed'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>df[<span class="st">'Strikes_Landed'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Successful extractions: 15842 out of 21508
+Strikes_Landed range: 1.0 to 44.0</code></pre>
+</div>
+</div>
+<div id="1c1aa940" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the indentation - run this code directly</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>top_strikers <span class="op">=</span> df.groupby(<span class="st">'Fighter'</span>)[<span class="st">'Strikes_Landed'</span>].<span class="bu">sum</span>().sort_values(ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 10 Fighters by Total Strikes Landed:"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_strikers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Top 10 Fighters by Total Strikes Landed:
+Fighter
+max holloway          333.0
+sean strickland       210.0
+angela hill           200.0
+king green            185.0
+donald cerrone        184.0
+nick diaz             174.0
+cub swanson           169.0
+joanna jedrzejczyk    169.0
+rafael dos anjos      168.0
+frankie edgar         168.0
+Name: Strikes_Landed, dtype: float64</code></pre>
+</div>
+</div>
+<div id="361c6ae7" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if we have meaningful data</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> top_strikers.<span class="bu">max</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Highest total: </span><span class="sc">{</span>top_strikers<span class="sc">.</span><span class="bu">max</span>()<span class="sc">}</span><span class="ss"> strikes"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Non-zero fighters: </span><span class="sc">{</span>(top_strikers <span class="op">&gt;</span> <span class="dv">0</span>)<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Highest total: 333.0 strikes
+Non-zero fighters: 10</code></pre>
+</div>
+</div>
+</section>
+<section id="top-10-fighters-by-total-strikes-landed" class="level1">
+<h1>2. Top 10 Fighters by Total Strikes Landed</h1>
+<div id="fc57e986" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#2 Top 10 Fighters by Total Strikes Landed</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>top_strikers <span class="op">=</span> top_strikers.sort_values(ascending<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>sns.barplot(x<span class="op">=</span>top_strikers.values, y<span class="op">=</span>top_strikers.index, palette<span class="op">=</span><span class="st">'Blues'</span>, orient<span class="op">=</span><span class="st">'h'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top 10 Fighters by Total Strikes Landed'</span>, fontsize<span class="op">=</span><span class="dv">13</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Total Strikes Landed'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Fighter'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, v <span class="kw">in</span> <span class="bu">enumerate</span>(top_strikers.values):</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    plt.text(v <span class="op">+</span> <span class="bu">max</span>(top_strikers.values) <span class="op">*</span> <span class="fl">0.01</span>, i, <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(v)<span class="sc">}</span><span class="ss">'</span>, </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>             va<span class="op">=</span><span class="st">'center'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> top_strikers.<span class="bu">max</span>() <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"All values are still zero - extraction may have failed"</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Let's check the data format:"</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df[[<span class="st">'Fighter'</span>, <span class="st">'Strikes'</span>, <span class="st">'Strikes_Landed'</span>, <span class="st">'Strikes_Attempted'</span>]].head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Data_Analysis_UFC_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="d2128ecd" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert 'Weight' ('155 lbs.') to numeric (155)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean the 'Weight' column</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Weight_Clean'</span>] <span class="op">=</span> df[<span class="st">'Weight'</span>].<span class="bu">str</span>.extract(<span class="vs">r'</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="vs">'</span>).astype(<span class="bu">float</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="283029cc" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Map to standard UFC divisions</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>weight_class_map <span class="op">=</span> {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">115</span>: <span class="st">'Strawweight'</span>, <span class="dv">125</span>: <span class="st">'Flyweight'</span>, <span class="dv">135</span>: <span class="st">'Bantamweight'</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">145</span>: <span class="st">'Featherweight'</span>, <span class="dv">155</span>: <span class="st">'Lightweight'</span>, <span class="dv">170</span>: <span class="st">'Welterweight'</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">185</span>: <span class="st">'Middleweight'</span>, <span class="dv">205</span>: <span class="st">'Light Heavyweight'</span>, <span class="dv">265</span>: <span class="st">'Heavyweight'</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Weight_Class'</span>] <span class="op">=</span> df[<span class="st">'Weight_Clean'</span>].<span class="bu">map</span>(weight_class_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="1444f0b3" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Drop rows where class couldn't be mapped</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">'Weight_Class'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="35d51b1f" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Estimate fight length (300 seconds = 5 minutes per round)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'Round'</span>].notna() <span class="op">&amp;</span> (df[<span class="st">'Round'</span>] <span class="op">&gt;</span> <span class="dv">0</span>)].copy()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Fight_Seconds'</span>] <span class="op">=</span> df[<span class="st">'Round'</span>] <span class="op">*</span> <span class="dv">300</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="5b74450c" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by weight class</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>avg_fight_length <span class="op">=</span> df.groupby(<span class="st">'Weight_Class'</span>)[<span class="st">'Fight_Seconds'</span>].mean().sort_values()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="average-fight-length-by-weight-class" class="level1">
+<h1>3. Average Fight Length by Weight Class</h1>
+<div id="2ef9013f" class="cell" data-execution_count="30">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#3. Average Fight Length by Weight Class: Compare fight durations across division</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sns.barplot(x<span class="op">=</span>avg_fight_length.values, y<span class="op">=</span>avg_fight_length.index, palette<span class="op">=</span><span class="st">'coolwarm_r'</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Fight Length by Weight Class'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Average Fight Length (seconds)'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Weight Class'</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels on bars</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, v <span class="kw">in</span> <span class="bu">enumerate</span>(avg_fight_length.values):</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    plt.text(v <span class="op">+</span> <span class="dv">5</span>, i, <span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(v)<span class="sc">}</span><span class="ss">s'</span>, va<span class="op">=</span><span class="st">'center'</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Data_Analysis_UFC_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="e363e52b" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#4. Win Method Trends: Create a pie chart or bar chart showing the proportion of wins by KO, submission, or decision.</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simplify_method(method):</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    method <span class="op">=</span> <span class="bu">str</span>(method).upper()  <span class="co"># Handle NaNs &amp; lowercase</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'KO'</span> <span class="kw">in</span> method:</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'KO/TKO'</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'SUB'</span> <span class="kw">in</span> method:</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Submission'</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'DEC'</span> <span class="kw">in</span> method:</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Decision'</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'DQ'</span> <span class="kw">in</span> method:</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Disqualification'</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="st">'OVERTURNED'</span> <span class="kw">in</span> method:</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Overturned'</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Other'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="210fdaba" class="cell" data-execution_count="32">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Win_Method_Simple'</span>] <span class="op">=</span> df[<span class="st">'Method'</span>].<span class="bu">apply</span>(simplify_method)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Win_Method_Simple'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>0          Decision
+1        Submission
+2          Decision
+3        Submission
+4          Decision
+            ...    
+21501      Decision
+21502    Submission
+21503    Submission
+21504      Decision
+21505      Decision
+Name: Win_Method_Simple, Length: 16694, dtype: object</code></pre>
+</div>
+</div>
+<div id="9617959a" class="cell" data-execution_count="33">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Count and sort</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>method_counts <span class="op">=</span> df[<span class="st">'Win_Method_Simple'</span>].value_counts()</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>method_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>Decision            7652
+KO/TKO              5338
+Submission          3470
+Overturned           110
+Other                 79
+Disqualification      45
+Name: Win_Method_Simple, dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="win-method-trends" class="level1">
+<h1>4. Win Method Trends</h1>
+<div id="b35dfd9a" class="cell" data-execution_count="34">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Win Method Trends:</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> sns.color_palette(<span class="st">'Set2'</span>, n_colors<span class="op">=</span><span class="bu">len</span>(method_counts))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>method_counts.plot.pie(autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, startangle<span class="op">=</span><span class="dv">140</span>, colors<span class="op">=</span>colors, textprops<span class="op">=</span>{<span class="st">'fontsize'</span>: <span class="dv">12</span>})</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">''</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Distribution of Win Methods'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Data_Analysis_UFC_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="3ebd9531" class="cell" data-execution_count="35">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fight Frequency Over Time: Visualize how active fighters are across their careers.</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Check Date column</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[<span class="st">'Date'</span>].head())  <span class="co"># See the format of the date values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>0    7/12/2005
+1    7/15/2009
+2     1/1/1999
+3     1/1/2012
+4     1/1/2012
+Name: Date, dtype: object</code></pre>
+</div>
+</div>
+<div id="fba9b1ac" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert to datetime</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'Date'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)  <span class="co"># 'coerce' will turn invalid dates into NaT</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Date'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>0       2005-07-12
+1       2009-07-15
+2       1999-01-01
+3       2012-01-01
+4       2012-01-01
+           ...    
+21501   2020-01-01
+21502   2003-01-01
+21503   2003-01-01
+21504   2022-01-01
+21505   2009-01-01
+Name: Date, Length: 16694, dtype: datetime64[ns]</code></pre>
+</div>
+</div>
+<div id="9416b9ae" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional check: see if conversion worked</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sample converted dates:</span><span class="ch">\n</span><span class="st">"</span>, df[<span class="st">'Date'</span>].dropna().head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sample converted dates:
+ 0   2005-07-12
+1   2009-07-15
+2   1999-01-01
+3   2012-01-01
+4   2012-01-01
+Name: Date, dtype: datetime64[ns]</code></pre>
+</div>
+</div>
+<div id="d0207284" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># STEP 2: Drop rows with missing dates</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df[df[<span class="st">'Date'</span>].notna()].copy()</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>df_clean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Fighter</th>
+<th data-quarto-table-cell-role="th">W/L</th>
+<th data-quarto-table-cell-role="th">Opponent</th>
+<th data-quarto-table-cell-role="th">Knockdowns</th>
+<th data-quarto-table-cell-role="th">Strikes</th>
+<th data-quarto-table-cell-role="th">Takedowns</th>
+<th data-quarto-table-cell-role="th">SubmissionAttempts</th>
+<th data-quarto-table-cell-role="th">Event</th>
+<th data-quarto-table-cell-role="th">Method</th>
+<th data-quarto-table-cell-role="th">Round</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">TD Avg.</th>
+<th data-quarto-table-cell-role="th">TD Acc.</th>
+<th data-quarto-table-cell-role="th">TD Def.</th>
+<th data-quarto-table-cell-role="th">Sub. Avg.</th>
+<th data-quarto-table-cell-role="th">Strikes_Landed</th>
+<th data-quarto-table-cell-role="th">Strikes_Attempted</th>
+<th data-quarto-table-cell-role="th">Weight_Clean</th>
+<th data-quarto-table-cell-role="th">Weight_Class</th>
+<th data-quarto-table-cell-role="th">Fight_Seconds</th>
+<th data-quarto-table-cell-role="th">Win_Method_Simple</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>tom aaron</td>
+<td>loss</td>
+<td>Matt Ricehouse</td>
+<td>NaN</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>Strikeforce - Henderson vs. Babalu ...</td>
+<td>U-DEC</td>
+<td>3.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>155.0</td>
+<td>Lightweight</td>
+<td>900.0</td>
+<td>Decision</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>tom aaron</td>
+<td>win</td>
+<td>Eric Steenberg</td>
+<td>NaN</td>
+<td>--</td>
+<td>--</td>
+<td>--</td>
+<td>Strikeforce - Heavy Artillery ...</td>
+<td>SUB</td>
+<td>1.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0%</td>
+<td>0%</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>155.0</td>
+<td>Lightweight</td>
+<td>300.0</td>
+<td>Submission</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>danny abbadi</td>
+<td>loss</td>
+<td>Jorge Gurgel</td>
+<td>0.0</td>
+<td>56</td>
+<td>0</td>
+<td>0</td>
+<td>UFC 63: Hughes vs Penn ...</td>
+<td>S-DEC</td>
+<td>3.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0%</td>
+<td>77%</td>
+<td>0.0</td>
+<td>5.0</td>
+<td>6.0</td>
+<td>155.0</td>
+<td>Lightweight</td>
+<td>900.0</td>
+<td>Decision</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>danny abbadi</td>
+<td>loss</td>
+<td>Kalib Starnes</td>
+<td>0.0</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>The Ultimate Fighter: Team Ortiz vs. Team Sham...</td>
+<td>SUB</td>
+<td>1.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0%</td>
+<td>77%</td>
+<td>0.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>155.0</td>
+<td>Lightweight</td>
+<td>300.0</td>
+<td>Submission</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>nariman abbasov</td>
+<td>loss</td>
+<td>Ismael Bonfim</td>
+<td>0.0</td>
+<td>45</td>
+<td>0</td>
+<td>0</td>
+<td>DWCS 6.7 Sep...</td>
+<td>U-DEC</td>
+<td>3.0</td>
+<td>...</td>
+<td>0.0</td>
+<td>0%</td>
+<td>66%</td>
+<td>0.0</td>
+<td>4.0</td>
+<td>5.0</td>
+<td>155.0</td>
+<td>Lightweight</td>
+<td>900.0</td>
+<td>Decision</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21501</td>
+<td>chris lytle</td>
+<td>loss</td>
+<td>Karo Parisyan</td>
+<td>0.0</td>
+<td>7\n</td>
+<td>0\n</td>
+<td>2\n</td>
+<td>UFC 51: Super Saturday\n \n\n\n ...</td>
+<td>U-DEC</td>
+<td>3.0</td>
+<td>...</td>
+<td>0.7</td>
+<td>55%</td>
+<td>55%</td>
+<td>2.4</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>170.0</td>
+<td>Welterweight</td>
+<td>900.0</td>
+<td>Decision</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21502</td>
+<td>chris lytle</td>
+<td>win</td>
+<td>Ronald Jhun</td>
+<td>1.0</td>
+<td>12\n</td>
+<td>0\n</td>
+<td>2\n</td>
+<td>UFC 49: Unfinished Business\n \n\n\n ...</td>
+<td>SUB\n</td>
+<td>2.0</td>
+<td>...</td>
+<td>0.7</td>
+<td>55%</td>
+<td>55%</td>
+<td>2.4</td>
+<td>1.0</td>
+<td>2.0</td>
+<td>170.0</td>
+<td>Welterweight</td>
+<td>600.0</td>
+<td>Submission</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21503</td>
+<td>chris lytle</td>
+<td>win</td>
+<td>Tiki Ghosn</td>
+<td>0.0</td>
+<td>34\n</td>
+<td>2\n</td>
+<td>1\n</td>
+<td>UFC 47: It's On!\n \n\n\n \n...</td>
+<td>SUB\n</td>
+<td>2.0</td>
+<td>...</td>
+<td>0.7</td>
+<td>55%</td>
+<td>55%</td>
+<td>2.4</td>
+<td>3.0</td>
+<td>4.0</td>
+<td>170.0</td>
+<td>Welterweight</td>
+<td>600.0</td>
+<td>Submission</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21504</td>
+<td>chris lytle</td>
+<td>loss</td>
+<td>Robbie Lawler</td>
+<td>0.0</td>
+<td>37\n</td>
+<td>1\n</td>
+<td>1\n</td>
+<td>UFC 45: Revolution\n \n\n\n ...</td>
+<td>U-DEC</td>
+<td>3.0</td>
+<td>...</td>
+<td>0.7</td>
+<td>55%</td>
+<td>55%</td>
+<td>2.4</td>
+<td>3.0</td>
+<td>7.0</td>
+<td>170.0</td>
+<td>Welterweight</td>
+<td>900.0</td>
+<td>Decision</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">21505</td>
+<td>chris lytle</td>
+<td>loss</td>
+<td>Ben Earwood</td>
+<td>0.0</td>
+<td>2\n</td>
+<td>0\n</td>
+<td>1\n</td>
+<td>UFC 28: High Stakes\n \n\n\n ...</td>
+<td>U-DEC</td>
+<td>2.0</td>
+<td>...</td>
+<td>0.7</td>
+<td>55%</td>
+<td>55%</td>
+<td>2.4</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>170.0</td>
+<td>Welterweight</td>
+<td>600.0</td>
+<td>Decision</td>
+</tr>
+</tbody>
+</table>
+
+<p>16694 rows × 37 columns</p>
+</div>
+</div>
+</div>
+<div id="5dcbcfbf" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'Date'</span>])</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Date'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="44">
+<pre><code>0       2005-07-12
+1       2009-07-15
+2       1999-01-01
+3       2012-01-01
+4       2012-01-01
+           ...    
+21501   2020-01-01
+21502   2003-01-01
+21503   2003-01-01
+21504   2022-01-01
+21505   2009-01-01
+Name: Date, Length: 16694, dtype: datetime64[ns]</code></pre>
+</div>
+</div>
+<div id="b24ca6c8" class="cell" data-execution_count="48">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fights_per_year_count <span class="op">=</span> df[df[<span class="st">'Date'</span>].dt.year <span class="op">&gt;=</span> <span class="dv">1998</span>][<span class="st">'Date'</span>].dt.year.value_counts().sort_index()</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>fights_per_year_count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>1998     935
+1999     916
+2000    1858
+2001       4
+2003    1847
+2005     924
+2009    1859
+2012    1839
+2020     915
+2022     928
+2023    1885
+2024       4
+Name: Date, dtype: int64</code></pre>
+</div>
+</div>
+<div id="f6aad6a7" class="cell" data-execution_count="50">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>fights_per_year_df <span class="op">=</span> fights_per_year_count.reset_index()</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>fights_per_year_df.columns <span class="op">=</span> [<span class="st">'Year'</span>, <span class="st">'Fights'</span>]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>fights_per_year_df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>Index(['Year', 'Fights'], dtype='object')</code></pre>
+</div>
+</div>
+<section id="fight-frequency-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="fight-frequency-over-time">5. Fight Frequency Over Time</h2>
+<div id="3938752d" class="cell" data-execution_count="51">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>fights_per_year_df, x<span class="op">=</span><span class="st">'Year'</span>, y<span class="op">=</span><span class="st">'Fights'</span>, marker<span class="op">=</span><span class="st">'o'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Fight Frequency Over Time'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Year'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Fights'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Data_Analysis_UFC_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
